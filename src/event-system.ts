@@ -128,7 +128,7 @@ export default class EventSystem<
     handler: (...args: Parameters<E[K]>) => ReturnType<E[K]>
   ) {
     this.subscribers = this.subscribers.filter(
-      (subscriber: EventSystemSubscriber<E, K>) =>
+      (subscriber: EventSystemSubscriber<E,keyof E>) =>
         subscriber.event !== event || subscriber.handler !== handler
     );
   }
@@ -142,7 +142,7 @@ export default class EventSystem<
     event: K,
     ...args: Parameters<E[K]>
   ) {
-    this.subscribers.forEach((subscriber: EventSystemSubscriber<E, K>) => {
+    this.subscribers.forEach((subscriber: EventSystemSubscriber<E,keyof E>) => {
       if (subscriber.event === event)
         subscriber.handler.call(subscriber.handler, ...args);
     });
